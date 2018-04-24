@@ -12,10 +12,13 @@ addEventListener('scroll', function(){
   // le añadimos las unidades de scroll desplazadas
   rootSytles.setProperty('--width', Math.round(scrollY / scrollUnit) );
 
+  rootSytles.setProperty('--bar-color', wpipl_parametros.wpipl_color );
+
+
+
 });
 
 // Creamos el elemento, que tendrá la barra de progreso
 var x = document.createElement("span");
 x.setAttribute("id", "wpipl-progress");
-
 document.body.appendChild(x);
