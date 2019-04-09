@@ -1,10 +1,10 @@
 ===  WP Indicador de Progreso de Lectura ===
 Contributors: jcglp
 Tags: entrada, indicador, barra, progreso, lectura
-Donate link: https://www.paypal.me/jcglp
+Donate link: https://www.paypal.me/jcglp/1.5
 Requires at least: 3.9
-Tested up to: 4.9
-Stable tag: 3.1.1
+Tested up to: 5.1
+Stable tag: 1.0.1
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,11 @@ Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré en
 
 == Changelog ==
 
+= 1.0.1 =
+* Tested 5.1
+* Prueba de vida. Aún hay alguien detrás del plugin
+
+
 = 1.0.0 =
 * Opciones de plugin. Seleccion de color de la barra de indicador
 
@@ -78,5 +83,7 @@ Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré en
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-* Opciones de plugin. Seleccion de color de la barra de indicador
+
+= 1.0.1 =
+* Tested 5.1
+* Prueba de vida. Aún hay alguien detrás del plugin
