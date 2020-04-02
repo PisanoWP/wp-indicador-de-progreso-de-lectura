@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: WP Indicador de Progreso de Lectura
- * Version: 1.0.1
+ * Version: 1.1.1
  * Plugin URI: http://mispinitoswp.wordpress.com/
  * Description: Muestra un indicador de progreso de lectura de la entrada en curso.
  * El indicador es una barra roja que va incrementando su ancho en función de la lectura de la entrada.
@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('WPIPL_VERSION', '1.0.1');
+define('WPIPL_VERSION', '1.1.1');
 define('WPIPL_SCRIPT_SUFFIX', '.min');
 define('WPIPL_TEXTDOMAIN', 'wpipl');
 define('WPIPL_URL', plugins_url( '', __FILE__ ) );
