@@ -2,9 +2,9 @@
 Contributors: jcglp
 Tags: entrada, indicador, barra, progreso, lectura
 Donate link: https://www.paypal.me/jcglp/1.5
-Requires at least: 3.9
+Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 1.1.1
+Stable tag: 1.5.0
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,12 @@ Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré en
 
 == Changelog ==
 
+= 1.5.0 =
+* Tested 5.5
+* Traducción inglés
+* Traducción español
+* Prueba de vida. Aún hay alguien detrás del plugin
+
 = 1.1.1 =
 * Tested 5.4
 * Prueba de vida. Aún hay alguien detrás del plugin
@@ -88,6 +94,8 @@ Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré en
 
 == Upgrade Notice ==
 
-= 1.1.1 =
-* Tested 5.4
+= 1.5.0 =
+* Tested 5.5
+* Traducción inglés
+* Traducción español
 * Prueba de vida. Aún hay alguien detrás del plugin

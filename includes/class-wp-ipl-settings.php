@@ -68,7 +68,7 @@ class WP_IPL_Settings {
 	 * @return void
 	 */
 	public function add_menu_item () {
-		$page = add_options_page( __( 'Indicador Progreso Lectura', WPIPL_TEXTDOMAIN ) , __( 'Indicador Progreso Lectura', WPIPL_TEXTDOMAIN ) , 'manage_options' , $this->parent->_token . '_settings' ,  array( $this, 'settings_page' ) );
+		$page = add_options_page( __( 'Reading Progress Indicator', WPIPL_TEXTDOMAIN ) , __( 'Reading Progress Indicator', WPIPL_TEXTDOMAIN ) , 'manage_options' , $this->parent->_token . '_settings' ,  array( $this, 'settings_page' ) );
 		add_action( 'admin_print_styles-' . $page, array( $this, 'settings_assets' ) );
 	}
 
@@ -95,7 +95,7 @@ class WP_IPL_Settings {
 	 * @return array 		Modified links
 	 */
 	public function add_settings_link ( $links ) {
-		$settings_link = '<a href="options-general.php?page=' . $this->parent->_token . '_settings">' . __( 'Configuración', WPIPL_TEXTDOMAIN ) . '</a>';
+		$settings_link = '<a href="options-general.php?page=' . $this->parent->_token . '_settings">' . __( 'Setting', WPIPL_TEXTDOMAIN ) . '</a>';
   		array_push( $links, $settings_link );
   		return $links;
 	}
@@ -108,12 +108,12 @@ class WP_IPL_Settings {
 
 		$settings['inicio'] = array(
 				'title'					=> '',
-				'description'			=> __( 'Bienvenido al plugin WordPress que te permitirá mostrar una barra de seguimiento de lectura de la entrada en curso.', WPIPL_TEXTDOMAIN ),
+				'description'			=> __( 'Welcome to the WordPress plugin that will allow you to display a reading tracking bar of the current post.', WPIPL_TEXTDOMAIN ),
 				'fields'				=> array(
 						array(
 								'id' 			=> 'color_barra_progreso',
-								'label'			=> __( 'Color Barra Progreso', WPIPL_TEXTDOMAIN ),
-								'description'	=> __( 'Seleccione el color para la barra de progreso.', WPIPL_TEXTDOMAIN ),
+								'label'			=> __( 'Color of Progress Bar', WPIPL_TEXTDOMAIN ),
+								'description'	=> __( 'Select the color for the progress bar.', WPIPL_TEXTDOMAIN ),
 								'type'			=> 'color',
 								'default'		=> '#FF0000'
 						),
@@ -199,7 +199,7 @@ class WP_IPL_Settings {
 
 		// Build page HTML
 		$html = '<div class="wrap" id="' . $this->parent->_token . '_settings">' . "\n";
-		$html .= '<h2>' . __( 'WP Indicador Progreso Lectura' , WPIPL_TEXTDOMAIN ) . '</h2>' . "\n";
+		$html .= '<h2>' . __( 'WP Reading Progress Indicator' , WPIPL_TEXTDOMAIN ) . '</h2>' . "\n";
 		$html .= '<div>' .  "\n";
 
 		$tab = '';
@@ -265,7 +265,7 @@ class WP_IPL_Settings {
 
 			$html .= '<p class="submit">' . "\n";
 			$html .= '<input type="hidden" name="tab" value="' . esc_attr( $tab ) . '" />' . "\n";
-			$html .= '<input name="Submit" type="submit" class="button-primary" value="' . esc_attr( __( 'Guardar cambios' , WPIPL_TEXTDOMAIN ) ) . '" />' . "\n";
+			$html .= '<input name="Submit" type="submit" class="button-primary" value="' . esc_attr( __( 'Save Changes' , WPIPL_TEXTDOMAIN ) ) . '" />' . "\n";
 			$html .= '</p>' . "\n";
 			$html .= '</form>' . "\n";
 
@@ -293,12 +293,10 @@ class WP_IPL_Settings {
 			if ( ! isset( $wp_settings_fields ) || !isset( $wp_settings_fields[$page] ) || !isset( $wp_settings_fields[$page][$section['id']] ) )
 				continue;
 
-			//echo '<input name="Submit" type="submit" class="button-primary" value="' . esc_attr( __( 'Guardar cambios' , WPIPL_TEXTDOMAIN ) ) . '" />' . "\n";
-
 			echo '<table class="form-table">';
 			$this->do_settings_fields( $page, $section['id'] );
 			echo '</table>';
-			echo '<input name="Submit" type="submit" class="button-primary" value="' . esc_attr( __( 'Guardar cambios' , WPIPL_TEXTDOMAIN ) ) . '" />' . "\n";
+			echo '<input name="Submit" type="submit" class="button-primary" value="' . esc_attr( __( 'Save Changes' , WPIPL_TEXTDOMAIN ) ) . '" />' . "\n";
 		}
 	}
 

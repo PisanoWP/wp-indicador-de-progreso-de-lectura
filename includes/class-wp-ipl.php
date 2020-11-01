@@ -100,11 +100,8 @@ class WP_IPL {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 10 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
 
-		// Load admin JS & CSS
-    /*
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 1 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ), 10, 1 );
-    */
+		
+		add_action( 'plugins_loaded', array($this, 'load_plugin_textdomain'));
 
 		// Load API for generic admin functions
 		if ( is_admin() ) {
@@ -139,29 +136,34 @@ class WP_IPL {
 	 * @return  void
 	 */
 	public function enqueue_scripts () {
-    if ( is_single() ) {
-      //error_log( '=>' . get_option( 'wpipl_color_barra_progreso' ) );
-      wp_register_script( 'wpipl-script', esc_url( $this->assets_url ) . 'js/wpipl_scripts' . WPIPL_SCRIPT_SUFFIX . '.js',  array(), $this->_version, true );
-      // Localize the script with new data
-      $wpipl_opciones = array(
-          'wpipl_color' => get_option( 'wpipl_color_barra_progreso' ),
-      );
-      wp_localize_script( 'wpipl-script', 'wpipl_parametros', $wpipl_opciones );
-      wp_enqueue_script( 'wpipl-script');
+		if ( is_single() ) {
+		//error_log( '=>' . get_option( 'wpipl_color_barra_progreso' ) );
+		wp_register_script( 'wpipl-script', esc_url( $this->assets_url ) . 'js/wpipl_scripts' . WPIPL_SCRIPT_SUFFIX . '.js',  array(), $this->_version, true );
+		// Localize the script with new data
+		$wpipl_opciones = array(
+			'wpipl_color' => get_option( 'wpipl_color_barra_progreso' ),
+		);
+		wp_localize_script( 'wpipl-script', 'wpipl_parametros', $wpipl_opciones );
+		wp_enqueue_script( 'wpipl-script');
 
-    }
+		}
 
 	} // End enqueue_scripts ()
 
 
-  public function donate_link($links, $file) {
+	function load_plugin_textdomain() {
+		load_plugin_textdomain( WPIPL_TEXTDOMAIN, FALSE, basename( dirname (dirname( __FILE__ )) ) . '/languages/' );
+		
+	}
 
-    if ( dirname( $file ) == plugin_basename($this->dir) ) {
-      $links[] = '<a href="https://www.paypal.me/jcglp/1.5" target="_blank">' . __('Donar', WPIPL_TEXTDOMAIN) . '</a>';
-    }
+	public function donate_link($links, $file) {
 
-    return $links;
-  }
+		if ( dirname( $file ) == plugin_basename($this->dir) ) {
+		$links[] = '<a href="https://www.paypal.me/jcglp/1.5" target="_blank">' . __('Donate', WPIPL_TEXTDOMAIN) . '</a>';
+		}
+
+		return $links;
+	}
 
 	/**
 	 * Main WP_IPL Instance

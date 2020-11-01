@@ -148,18 +148,7 @@ class WP_IPL_Admin_API {
 				}
 				$html .= '</select> ';
 			break;
-
-			case 'image':
-				$image_thumb = '';
-				if ( $data ) {
-					$image_thumb = wp_get_attachment_thumb_url( $data );
-				}
-				$html .= '<img id="' . $option_name . '_preview" class="image_preview" src="' . $image_thumb . '" /><br/>' . "\n";
-				$html .= '<input id="' . $option_name . '_button" type="button" data-uploader_title="' . __( 'Subir una imagen' , WPMPS_TEXTDOMAIN ) . '" data-uploader_button_text="' . __( 'Usar imagen' , WPMPS_TEXTDOMAIN ) . '" class="image_upload_button button" value="'. __( 'Subir nueva imagen' , WPMPS_TEXTDOMAIN ) . '" />' . "\n";
-				$html .= '<input id="' . $option_name . '_delete" type="button" class="image_delete_button button" value="'. __( 'Borrar imagen' , WPMPS_TEXTDOMAIN ) . '" />' . "\n";
-				$html .= '<input id="' . $option_name . '" class="image_data_field" type="hidden" name="' . $option_name . '" value="' . $data . '"/><br/>' . "\n";
-			break;
-
+			
 			case 'color':
 				?><div class="color-picker" style="position:relative;">
 			        <input type="text" name="<?php esc_attr_e( $option_name ); ?>" class="color" value="<?php esc_attr_e( $data ); ?>" />
@@ -171,7 +160,7 @@ class WP_IPL_Admin_API {
 			case 'submit':
 				?>
 				<div class="">
-					<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr( _e( 'Guardar cambios' , WPIPL_TEXTDOMAIN ) ); ?>" />
+					<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr( _e( 'Save Changes' , WPIPL_TEXTDOMAIN ) ); ?>" />
 				</div>
 				<?php
 			break;
@@ -199,29 +188,29 @@ class WP_IPL_Admin_API {
 				<div class="wp-ipl-info">
 
 					<div class="wp-ipl-soporte" >
-						<h3><?php _e('Soporte', WPIPL_TEXTDOMAIN); ?></h3>
-						<p> <?php _e('¿Tienes dudas o sugerencias? Aquí tienes unos enlaces que te pueden ayudar.', WPIPL_TEXTDOMAIN); ?></p>
+						<h3><?php _e('Support', WPIPL_TEXTDOMAIN); ?></h3>
+						<p> <?php _e('Do you have any questions or suggestions? Here are some links that can help you.', WPIPL_TEXTDOMAIN); ?></p>
 						<ul>							
-							<li><a target="_blank" href="https://mispinitoswp.wordpress.com/contacto/"><?php _e('Sugerir mejoras', WPIPL_TEXTDOMAIN); ?></a></li>
-							<li><a target="_blank" href="https://wordpress.org/support/plugin/wp-indicador-de-progreso-de-lectura"><?php _e('Informar de un Bug', WPIPL_TEXTDOMAIN); ?></a></li>
+							<li><a target="_blank" href="https://mispinitoswp.wordpress.com/contacto/"><?php _e('Suggest improvements', WPIPL_TEXTDOMAIN); ?></a></li>
+							<li><a target="_blank" href="https://wordpress.org/support/plugin/wp-indicador-de-progreso-de-lectura"><?php _e('Report a Bug', WPIPL_TEXTDOMAIN); ?></a></li>
 						</ul>
 					</div>
 
 					<div class="">
-						<h3><?php _e('Valora el plugin', WPIPL_TEXTDOMAIN); ?> <span class="cinco-estrellas"></span></h3>
+						<h3><?php _e('Rate the plugin', WPIPL_TEXTDOMAIN); ?> <span class="cinco-estrellas"></span></h3>
 						<p>
 						<?php
-						printf(__('¿Te gusta el plugin? ¿lo estas usando en tu página?, pues puedes valorar el plugin en <a href="%s" target="_blank">WordPress.org</a>, que te estaría muy agradecido :-)', WPIPL_TEXTDOMAIN )
+						printf(__('Do you like the plugin? Are you using it on your website? Well, you can rate the plugin in <a href="%s" target="_blank">WordPress.org</a>, that I would be very grateful to you :-)', WPIPL_TEXTDOMAIN )
 						, esc_url('https://wordpress.org/support/view/plugin-reviews/wp-indicador-de-progreso-de-lectura?filter=5') );
 						?>
 						</p>
 					</div>
 
 					<div class="">
-						<h3><?php _e('Invítame a un café', WPIPL_TEXTDOMAIN); ?></h3>
-						<p><?php _e('Pues eso, dale al botón para una dosis de cafeína.', WPIPL_TEXTDOMAIN); ?></p>
+						<h3><?php _e('Invite me to a coffee', WPIPL_TEXTDOMAIN); ?></h3>
+						<p><?php _e('Well that, push the button to give me a good dose of caffeine.', WPIPL_TEXTDOMAIN); ?></p>
 						<p>
-							<a  href="https://www.paypal.me/jcglp/1.5" title="<?php _e('Invítame a un café', WPIPL_TEXTDOMAIN); ?>" target="_blank">
+							<a  href="https://www.paypal.me/jcglp/1.5" title="<?php _e('Invite me to a coffee', WPIPL_TEXTDOMAIN); ?>" target="_blank">
 							<img src="<?php echo WPIPL_URL . '/assets/images/btn_donate_LG.gif'; ?>" alt="paypal logo">
 							</a>
 						</p>
