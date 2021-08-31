@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: WP Indicador de Progreso de Lectura
- * Version: 1.5.0
+ * Version: 1.6.0
  * Plugin URI: http://mispinitoswp.wordpress.com/
  * Description: Displays a progress indicator for reading the entry in progress. The indicator is a red bar that increases in width depending on the reading of the entry.
  * Author: Juan Carlos Gomez-Lobo
@@ -13,7 +13,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('WPIPL_VERSION', '1.5.0');
+define('WPIPL_VERSION', '1.6.0');
 define('WPIPL_SCRIPT_SUFFIX', '.min');
 define('WPIPL_TEXTDOMAIN', 'wp-indicador-de-progreso-de-lectura');
 define('WPIPL_URL', plugins_url( '', __FILE__ ) );

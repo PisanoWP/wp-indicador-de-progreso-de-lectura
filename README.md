@@ -6,11 +6,11 @@ El indicador es una barra roja que va incrementando su ancho en función de la l
 
 
 Instalación
------------
+----------
 
-Url del plugin en Wordpress: https://wordpress.org/plugins/wp-indicador-de-progreso-de-lectura/
+Url del plugin en Wordpress: https://wordpress.org/plugins/#/
 
-Guía de instalación: https://wordpress.org/plugins/wp-indicador-de-progreso-de-lectura/#installation
+Guía de instalación:https://wordpress.org/plugins/#/installation/
 
 
 Agradecimientos

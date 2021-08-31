@@ -7,7 +7,7 @@ class WP_IPL_Admin_API {
 	 * Constructor function
 	 */
 	public function __construct () {
-		add_action( 'save_post', array( $this, 'save_meta_boxes' ), 10, 1 );
+
 	}
 
 	/**
@@ -64,213 +64,19 @@ class WP_IPL_Admin_API {
 			$data = '';
 		}
 
-		$html = '';
-
 		switch( $field['type'] ) {
-
-			case 'text':
-			case 'url':
-			case 'email':
-				$html .= '<input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" value="' . esc_attr( $data ) . '" />' . "\n";
-			break;
-
-			case 'password':
-			case 'number':
-			case 'hidden':
-				$min = '';
-				if ( isset( $field['min'] ) ) {
-					$min = ' min="' . esc_attr( $field['min'] ) . '"';
-				}
-
-				$max = '';
-				if ( isset( $field['max'] ) ) {
-					$max = ' max="' . esc_attr( $field['max'] ) . '"';
-				}
-				$html .= '<input id="' . esc_attr( $field['id'] ) . '" type="' . esc_attr( $field['type'] ) . '" name="' . esc_attr( $option_name ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" value="' . esc_attr( $data ) . '"' . $min . '' . $max . '/>' . "\n";
-			break;
-
-			case 'text_secret':
-				$html .= '<input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" value="" />' . "\n";
-			break;
-
-			case 'textarea':
-				$html .= '<textarea id="' . esc_attr( $field['id'] ) . '" rows="5" cols="50" name="' . esc_attr( $option_name ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '">' . $data . '</textarea><br/>'. "\n";
-			break;
-
-			case 'checkbox':
-				$checked = '';
-				if ( $data && 'on' == $data ) {
-					$checked = 'checked="checked"';
-				}
-				$html .= '<input id="' . esc_attr( $field['id'] ) . '" type="' . esc_attr( $field['type'] ) . '" name="' . esc_attr( $option_name ) . '" ' . $checked . '/>' . "\n";
-			break;
-
-			case 'checkbox_multi':
-				foreach ( $field['options'] as $k => $v ) {
-					$checked = false;
-					if ( in_array( $k, $data ) ) {
-						$checked = true;
-					}
-					$html .= '<label for="' . esc_attr( $field['id'] . '_' . $k ) . '" class="checkbox_multi"><input type="checkbox" ' . checked( $checked, true, false ) . ' name="' . esc_attr( $option_name ) . '[]" value="' . esc_attr( $k ) . '" id="' . esc_attr( $field['id'] . '_' . $k ) . '" /> ' . $v . '</label> ';
-				}
-			break;
-
-			case 'radio':
-				foreach ( $field['options'] as $k => $v ) {
-					$checked = false;
-					if ( $k == $data ) {
-						$checked = true;
-					}
-					$html .= '<label for="' . esc_attr( $field['id'] . '_' . $k ) . '"><input type="radio" ' . checked( $checked, true, false ) . ' name="' . esc_attr( $option_name ) . '" value="' . esc_attr( $k ) . '" id="' . esc_attr( $field['id'] . '_' . $k ) . '" /> ' . $v . '</label> ';
-				}
-			break;
-
-			case 'select':
-				$html .= '<select name="' . esc_attr( $option_name ) . '" id="' . esc_attr( $field['id'] ) . '">';
-				foreach ( $field['options'] as $k => $v ) {
-					$selected = false;
-					if ( $k == $data ) {
-						$selected = true;
-					}
-					$html .= '<option ' . selected( $selected, true, false ) . ' value="' . esc_attr( $k ) . '">' . $v . '</option>';
-				}
-				$html .= '</select> ';
-			break;
-
-			case 'select_multi':
-				$html .= '<select name="' . esc_attr( $option_name ) . '[]" id="' . esc_attr( $field['id'] ) . '" multiple="multiple">';
-				foreach ( $field['options'] as $k => $v ) {
-					$selected = false;
-					if ( in_array( $k, $data ) ) {
-						$selected = true;
-					}
-					$html .= '<option ' . selected( $selected, true, false ) . ' value="' . esc_attr( $k ) . '">' . $v . '</option>';
-				}
-				$html .= '</select> ';
-			break;
-			
 			case 'color':
 				?><div class="color-picker" style="position:relative;">
-			        <input type="text" name="<?php esc_attr_e( $option_name ); ?>" class="color" value="<?php esc_attr_e( $data ); ?>" />
+			        <input type="text" name="<?php esc_attr_e( $option_name ); ?>" class="color" value="<?php esc_attr_e( (($data=='')?'#FF0000':$data) ); ?>" />
 			        <div style="position:absolute;background:#FFF;z-index:99;border-radius:100%;" class="colorpicker"></div>
 			    </div>
+					<span class="description"><?php echo esc_html($field['description']); ?></span>
 			    <?php
 			break;
-
-			case 'submit':
-				?>
-				<div class="">
-					<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr( _e( 'Save Changes' , WPIPL_TEXTDOMAIN ) ); ?>" />
-				</div>
-				<?php
-			break;
-
-			case 'inicio':
-				// Información del plugin
-				?>
-
-				<style media="screen">
-					.wp-ipl-info{
-						display: grid;
-						grid-template-columns: 1fr 1fr;
-
-					}
-
-					.wp-ipl-soporte{
-						grid-column-start: 1;
-					  grid-column-end: 3;
-					  grid-row-start: 1;
-					  grid-row-end: span 2;
-					}
-
-				</style>
-
-				<div class="wp-ipl-info">
-
-					<div class="wp-ipl-soporte" >
-						<h3><?php _e('Support', WPIPL_TEXTDOMAIN); ?></h3>
-						<p> <?php _e('Do you have any questions or suggestions? Here are some links that can help you.', WPIPL_TEXTDOMAIN); ?></p>
-						<ul>							
-							<li><a target="_blank" href="https://mispinitoswp.wordpress.com/contacto/"><?php _e('Suggest improvements', WPIPL_TEXTDOMAIN); ?></a></li>
-							<li><a target="_blank" href="https://wordpress.org/support/plugin/wp-indicador-de-progreso-de-lectura"><?php _e('Report a Bug', WPIPL_TEXTDOMAIN); ?></a></li>
-						</ul>
-					</div>
-
-					<div class="">
-						<h3><?php _e('Rate the plugin', WPIPL_TEXTDOMAIN); ?> <span class="cinco-estrellas"></span></h3>
-						<p>
-						<?php
-						printf(__('Do you like the plugin? Are you using it on your website? Well, you can rate the plugin in <a href="%s" target="_blank">WordPress.org</a>, that I would be very grateful to you :-)', WPIPL_TEXTDOMAIN )
-						, esc_url('https://wordpress.org/support/view/plugin-reviews/wp-indicador-de-progreso-de-lectura?filter=5') );
-						?>
-						</p>
-					</div>
-
-					<div class="">
-						<h3><?php _e('Invite me to a coffee', WPIPL_TEXTDOMAIN); ?></h3>
-						<p><?php _e('Well that, push the button to give me a good dose of caffeine.', WPIPL_TEXTDOMAIN); ?></p>
-						<p>
-							<a  href="https://www.paypal.me/jcglp/1.5" title="<?php _e('Invite me to a coffee', WPIPL_TEXTDOMAIN); ?>" target="_blank">
-							<img src="<?php echo WPIPL_URL . '/assets/images/btn_donate_LG.gif'; ?>" alt="paypal logo">
-							</a>
-						</p>
-						</p>
-					</div>
-
-				</div>
-
-				<?php
-
-			break;
-
-
 		}
-
-		switch( $field['type'] ) {
-
-			case 'checkbox_multi':
-			case 'radio':
-			case 'select_multi':
-				$html .= '<br/><span class="description">' . $field['description'] . '</span>';
-			break;
-
-			default:
-				if ( ! $post ) {
-					$html .= '<label for="' . esc_attr( $field['id'] ) . '">' . "\n";
-				}
-
-				$html .= '<span class="description">' . $field['description'] . '</span>' . "\n";
-
-				if ( ! $post ) {
-					$html .= '</label>' . "\n";
-				}
-			break;
-		}
-
-		if ( ! $echo ) {
-			return $html;
-		}
-
-		echo $html;
 
 	}
 
-	/**
-	 * Validate form field
-	 * @param  string $data Submitted value
-	 * @param  string $type Type of field to validate
-	 * @return string       Validated value
-	 */
-	public function validate_field ( $data = '', $type = 'text' ) {
-
-		switch( $type ) {
-			case 'text': $data = esc_attr( $data ); break;
-			case 'url': $data = esc_url( $data ); break;
-			case 'email': $data = is_email( $data ); break;
-		}
-
-		return $data;
-	}
 
 	/**
 	 * Add meta box to the dashboard
@@ -305,9 +111,11 @@ class WP_IPL_Admin_API {
 
 		$fields = apply_filters( $post->post_type . '_custom_fields', array(), $post->post_type );
 
-		if ( ! is_array( $fields ) || 0 == count( $fields ) ) return;
+		if ( ! is_array( $fields ) || 0 == count( $fields ) ) return; ?>
 
-		echo '<div class="custom-field-panel">' . "\n";
+
+		<div class="custom-field-panel">
+		<?php
 
 		foreach ( $fields as $field ) {
 
@@ -321,9 +129,10 @@ class WP_IPL_Admin_API {
 				$this->display_meta_box_field( $field, $post );
 			}
 
-		}
+		} ?>
+		</div>
 
-		echo '</div>' . "\n";
+	<?PHP
 
 	}
 
@@ -333,37 +142,20 @@ class WP_IPL_Admin_API {
 	 * @param  object $post  Post object
 	 * @return void
 	 */
-	public function display_meta_box_field ( $field = array(), $post ) {
+	public function display_meta_box_field ( $field = array(), $post = false) {
 
-		if ( ! is_array( $field ) || 0 == count( $field ) ) return;
+		if ( ! is_array( $field ) || 0 == count( $field ) ) return; ?>
 
-		$field = '<p class="form-field"><label for="' . $field['id'] . '">' . $field['label'] . '</label>' . $this->display_field( $field, $post, false ) . '</p>' . "\n";
-
-		echo $field;
+		<p class="form-field">
+			<label for="<?php echo esc_attr($field['id']); ?>">
+				<?php
+				echo esc_html($field['label']); ?>
+			</label>
+			<?php
+				$this->display_field( $field, $post, false ); ?>
+		</p>
+	<?php 
 	}
 
-	/**
-	 * Save metabox fields
-	 * @param  integer $post_id Post ID
-	 * @return void
-	 */
-	public function save_meta_boxes ( $post_id = 0 ) {
-
-		if ( ! $post_id ) return;
-
-		$post_type = get_post_type( $post_id );
-
-		$fields = apply_filters( $post_type . '_custom_fields', array(), $post_type );
-
-		if ( ! is_array( $fields ) || 0 == count( $fields ) ) return;
-
-		foreach ( $fields as $field ) {
-			if ( isset( $_REQUEST[ $field['id'] ] ) ) {
-				update_post_meta( $post_id, $field['id'], $this->validate_field( $_REQUEST[ $field['id'] ], $field['type'] ) );
-			} else {
-				update_post_meta( $post_id, $field['id'], '' );
-			}
-		}
-	}
 
 }

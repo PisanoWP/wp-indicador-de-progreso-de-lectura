@@ -85,7 +85,7 @@ class WP_IPL_Settings {
 
 		// We're including the WP media scripts here because they're needed for the image upload field
 		// If you're not including an image upload then you can leave this function call out
-		wp_register_script( $this->parent->_token . '-settings-js', $this->parent->assets_url . 'js/settings' . $this->parent->script_suffix . '.js', array( 'farbtastic', 'jquery' ), '1.0.0' );
+		wp_register_script( $this->parent->_token . '-settings-js', esc_url($this->parent->assets_url . 'js/settings' . $this->parent->script_suffix . '.js'), array( 'farbtastic', 'jquery' ), '1.0.0' );
 		wp_enqueue_script( $this->parent->_token . '-settings-js' );
 	}
 
@@ -115,23 +115,9 @@ class WP_IPL_Settings {
 								'label'			=> __( 'Color of Progress Bar', WPIPL_TEXTDOMAIN ),
 								'description'	=> __( 'Select the color for the progress bar.', WPIPL_TEXTDOMAIN ),
 								'type'			=> 'color',
-								'default'		=> '#FF0000'
+								'default'		=> '#FF0000',
+								'callback'	=> 'sanitize_hex_color'
 						),
-						array(
-								'id' 			=> 'wpip_submit',
-								'label'			=> '',
-								'description'	=> '',
-								'type'			=> 'submit',
-								'default'		=> '0',
-						),
-						array(
-								'id' 			=> 'inicio',
-								'label'			=> '',
-								'description'	=> '',
-								'type'			=> 'inicio',
-								'default'		=> '0',
-						),
-
 				)
 		);
 
@@ -148,19 +134,7 @@ class WP_IPL_Settings {
 	public function register_settings () {
 		if ( is_array( $this->settings ) ) {
 
-			// Check posted/selected tab
-			$current_section = '';
-			if ( isset( $_POST['tab'] ) && $_POST['tab'] ) {
-				$current_section = $_POST['tab'];
-			} else {
-				if ( isset( $_GET['tab'] ) && $_GET['tab'] ) {
-					$current_section = $_GET['tab'];
-				}
-			}
-
 			foreach ( $this->settings as $section => $data ) {
-
-				if ( $current_section && $current_section != $section ) continue;
 
 				// Add section to page
 				add_settings_section( $section, $data['title'], array( $this, 'settings_section' ), $this->parent->_token . '_settings' );
@@ -181,99 +155,34 @@ class WP_IPL_Settings {
 					add_settings_field( $field['id'], $field['label'], array( $this->parent->admin, 'display_field' ), $this->parent->_token . '_settings', $section, array( 'field' => $field, 'prefix' => $this->base ) );
 				}
 
-				if ( ! $current_section ) break;
 			}
 		}
 	}
 
-	public function settings_section ( $section ) {
-		$html = '<p> ' . $this->settings[ $section['id'] ]['description'] . '</p>' . "\n";
-		echo $html;
+	public function settings_section ( $section ) { ?>
+		<p>
+			<?php
+			echo esc_html($this->settings[ $section['id'] ]['description']); ?>
+		</p>
+	<?php
 	}
 
 	/**
 	 * Load settings page content
 	 * @return void
 	 */
-	public function settings_page () {
+	public function settings_page () { ?>
 
-		// Build page HTML
-		$html = '<div class="wrap" id="' . $this->parent->_token . '_settings">' . "\n";
-		$html .= '<h2>' . __( 'WP Reading Progress Indicator' , WPIPL_TEXTDOMAIN ) . '</h2>' . "\n";
-		$html .= '<div>' .  "\n";
-
-		$tab = '';
-		if ( isset( $_GET['tab'] ) && $_GET['tab'] ) {
-			$tab .= $_GET['tab'];
-		}
-
-		// Show page tabs
-		if ( is_array( $this->settings ) && 1 < count( $this->settings ) ) {
-
-			$html .= '<h2 class="nav-tab-wrapper">' . "\n";
-
-			$c = 0;
-			foreach ( $this->settings as $section => $data ) {
-
-				// Set tab class
-				$class = 'nav-tab';
-				if ( ! isset( $_GET['tab'] ) ) {
-					if ( 0 == $c ) {
-						$class .= ' nav-tab-active';
-					}
-				} else {
-					if ( isset( $_GET['tab'] ) && $section == $_GET['tab'] ) {
-						$class .= ' nav-tab-active';
-					}
-				}
-
-				// Set tab link
-				$tab_link = add_query_arg( array( 'tab' => $section ) );
-				if ( isset( $_GET['settings-updated'] ) ) {
-					$tab_link = remove_query_arg( 'settings-updated', $tab_link );
-				}
-
-				// Output tab
-				$html .= '<a href="' . $tab_link . '" class="' . esc_attr( $class ) . '">' . esc_html( $data['title'] ) . '</a>' . "\n";
-
-				++$c;
-			}
-
-			$html .= '</h2>' . "\n";
-		}
-
-		if ($tab=='inicio' || $tab=='') {
-			$html .= '<form method="post" action="options.php" enctype="multipart/form-data">' . "\n";
-			// Get settings fields
-			ob_start();
-			settings_fields( $this->parent->_token . '_settings' );
-			$this->do_settings_sections( $this->parent->_token . '_settings' );
-
-			$html .= ob_get_clean();
-
-			$html .= '</form>' . "\n";
-
-		} else {
-
-			$html .= '<form method="post" action="options.php" enctype="multipart/form-data">' . "\n";
-
-			// Get settings fields
-			ob_start();
-			settings_fields( $this->parent->_token . '_settings' );
-			$this->do_settings_sections( $this->parent->_token . '_settings' );
-			$html .= ob_get_clean();
-
-			$html .= '<p class="submit">' . "\n";
-			$html .= '<input type="hidden" name="tab" value="' . esc_attr( $tab ) . '" />' . "\n";
-			$html .= '<input name="Submit" type="submit" class="button-primary" value="' . esc_attr( __( 'Save Changes' , WPIPL_TEXTDOMAIN ) ) . '" />' . "\n";
-			$html .= '</p>' . "\n";
-			$html .= '</form>' . "\n";
-
-		}
-
-		$html .= '</div>' . "\n";
-
-		echo $html;
+		<div class="wrap" id="<?php echo esc_attr($this->parent->_token.'_settings'); ?> ">
+		<h2> <?php esc_html_e('WP Reading Progress Indicator' , WPIPL_TEXTDOMAIN ); ?> </h2>
+		<div>
+			<form method="post" action="options.php" enctype="multipart/form-data">
+				<?php
+				settings_fields( $this->parent->_token . '_settings' );
+				$this->do_settings_sections( $this->parent->_token . '_settings' ); ?>
+			</form>
+		</div>
+	<?php
 	}
 
 
@@ -284,8 +193,10 @@ class WP_IPL_Settings {
 			return;
 
 		foreach ( (array) $wp_settings_sections[$page] as $section ) {
-			if ( $section['title'] )
-				echo "<h3>{$section['title']}</h3>\n";
+			if ( $section['title'] ): ?>
+				<h3><?php echo  esc_html($section['title']); ?> </h3>
+			<?php
+			endif;
 
 			if ( $section['callback'] )
 				call_user_func( $section['callback'], $section );
@@ -293,10 +204,13 @@ class WP_IPL_Settings {
 			if ( ! isset( $wp_settings_fields ) || !isset( $wp_settings_fields[$page] ) || !isset( $wp_settings_fields[$page][$section['id']] ) )
 				continue;
 
-			echo '<table class="form-table">';
-			$this->do_settings_fields( $page, $section['id'] );
-			echo '</table>';
-			echo '<input name="Submit" type="submit" class="button-primary" value="' . esc_attr( __( 'Save Changes' , WPIPL_TEXTDOMAIN ) ) . '" />' . "\n";
+			?>
+			<table class="form-table">
+				<?php
+				$this->do_settings_fields( $page, $section['id'] ); ?>
+			</table>
+			<input name="Submit" type="submit" class="button-primary" value="<?php  esc_attr_e( 'Save Changes' , WPIPL_TEXTDOMAIN ); ?>" />
+			<?php
 		}
 	}
 
@@ -307,30 +221,119 @@ class WP_IPL_Settings {
 		if ( ! isset( $wp_settings_fields[$page][$section] ) )
 			return;
 
+
 		foreach ( (array) $wp_settings_fields[$page][$section] as $field ) {
-			$class = '';
 
-			if ( ! empty( $field['args']['class'] ) ) {
-				$class = ' class="' . esc_attr( $field['args']['class'] ) . '"';
-			}
+			$class = false;
 
-			echo "<tr{$class}>";
+			if ( !empty( $field['args']['class'] ) ):
+				$class =  $field['args']['class'];
+			endif;?>
 
-			if ( ! empty( $field['args']['label_for'] ) ) {
-				echo '<th scope="col"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label></th>';
+			<tr class="<?php echo esc_attr($class); ?>">
 
-			} elseif (!empty ($field['title'])) {
-				echo '<th scope="col">' . $field['title'] . '</th>';
+				<?php
+				$label_for = false;
+				if (!empty( $field['args']['label_for'] ) ):
+					$label_for = $field['args']['label_for'];
+				endif;
 
-			}
+				$title = false;
+				if (!empty ($field['title']) ):
+					$title = $field['title'];
+				endif; ?>
 
-			echo '</tr>';
-			echo "<tr{$class}>";
-			echo '<td>';
-			call_user_func($field['callback'], $field['args']);
-			echo '</td>';
-			echo '</tr>';
+				<th scope="col">
+					<?php
+					if ($label_for): ?>
+						<label for="<?php echo  esc_attr( $label_for ); ?>">
+							<?php echo  esc_html($title); ?>
+						</label>
+
+					<?php
+					else:
+						echo  esc_html($title);
+
+					endif; ?>
+				</th>
+			</tr>
+
+			<tr class="<?php echo esc_attr($class); ?>">
+				<td>
+					<?php
+					call_user_func($field['callback'], $field['args']); ?>
+				</td>
+			</tr>
+
+		<?php
+
 		}
+
+		// Una vez mostrados el campo para seleccionar el colorpicker
+		// ponemos el boton de grabar debajo , y un bloque de infomración del plugin
+		?>
+		<tr><td>
+			<div class="">
+				<input  type="submit" class="button-primary" value="<?php  esc_attr_e( 'Save Changes' , WPIPL_TEXTDOMAIN ); ?>" />
+			</div>
+		</td></tr>
+
+		<tr>
+			<td>
+				<style media="screen">
+					.wp-ipl-info{
+						display: grid;
+						grid-template-columns: 1fr 1fr;
+					}
+					.wp-ipl-soporte{
+						grid-column-start: 1;
+						grid-column-end: 3;
+						grid-row-start: 1;
+						grid-row-end: span 2;
+					}
+					.cinco-estrellas:before {
+						font-family: "dashicons";
+						color: #fddb5a;
+						content: "\f155\f155\f155\f155\f155";
+					}
+				</style>
+
+				<div class="wp-ipl-info">
+
+					<div class="wp-ipl-soporte" >
+						<h3><?php esc_html_e('Support', WPIPL_TEXTDOMAIN); ?></h3>
+						<p> <?php esc_html_e('Do you have any questions or suggestions? Here are some links that can help you.', WPIPL_TEXTDOMAIN); ?></p>
+						<ul>
+							<li><a target="_blank" href="https://mispinitoswp.wordpress.com/contacto/"><?php esc_html_e('Suggest improvements', WPIPL_TEXTDOMAIN); ?></a></li>
+							<li><a target="_blank" href="https://wordpress.org/support/plugin/wp-indicador-de-progreso-de-lectura"><?php esc_html_e('Report a Bug', WPIPL_TEXTDOMAIN); ?></a></li>
+						</ul>
+					</div>
+
+					<div class="">
+						<h3><?php esc_html_e('Rate the plugin', WPIPL_TEXTDOMAIN); ?> <span class="cinco-estrellas"></span></h3>
+						<p>
+						<?php
+						printf(__('Do you like the plugin? Are you using it on your website? Well, you can rate the plugin in <a href="%s" target="_blank">WordPress.org</a>, that I would be very grateful to you :-)', WPIPL_TEXTDOMAIN )
+						, esc_url('https://wordpress.org/support/view/plugin-reviews/wp-indicador-de-progreso-de-lectura?filter=5') );
+						?>
+						</p>
+					</div>
+
+					<div class="">
+						<h3><?php esc_html_e('Invite me to a coffee', WPIPL_TEXTDOMAIN); ?></h3>
+						<p><?php esc_html_e('Well that, push the button to give me a good dose of caffeine.', WPIPL_TEXTDOMAIN); ?></p>
+						<p>
+							<a href="https://www.paypal.me/jcglp/1.5" title="<?php esc_attr_e('Invite me to a coffee', WPIPL_TEXTDOMAIN); ?>" target="_blank">
+							<img src="<?php echo esc_url(WPIPL_URL . '/assets/images/btn_donate_LG.gif'); ?>" alt="paypal logo">
+							</a>
+						</p>
+						</p>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<?php
+
 	}
 
 	/**

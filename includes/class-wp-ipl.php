@@ -90,7 +90,7 @@ class WP_IPL {
 		$this->file = $file;
 		$this->dir = dirname( $this->file );
 		$this->assets_dir = trailingslashit( $this->dir ) . 'assets';
-		$this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', $this->file ) ) );
+		$this->assets_url = trailingslashit( plugins_url( '/assets/', $this->file ) ) ;
 
 		$this->script_suffix = WPIPL_SCRIPT_SUFFIX;
 
@@ -100,7 +100,7 @@ class WP_IPL {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 10 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
 
-		
+
 		add_action( 'plugins_loaded', array($this, 'load_plugin_textdomain'));
 
 		// Load API for generic admin functions
@@ -137,14 +137,12 @@ class WP_IPL {
 	 */
 	public function enqueue_scripts () {
 		if ( is_single() ) {
-		//error_log( '=>' . get_option( 'wpipl_color_barra_progreso' ) );
-		wp_register_script( 'wpipl-script', esc_url( $this->assets_url ) . 'js/wpipl_scripts' . WPIPL_SCRIPT_SUFFIX . '.js',  array(), $this->_version, true );
-		// Localize the script with new data
-		$wpipl_opciones = array(
-			'wpipl_color' => get_option( 'wpipl_color_barra_progreso' ),
-		);
-		wp_localize_script( 'wpipl-script', 'wpipl_parametros', $wpipl_opciones );
-		wp_enqueue_script( 'wpipl-script');
+			//error_log( '=>' . get_option( 'wpipl_color_barra_progreso' ) );
+			wp_register_script( 'wpipl-script', esc_url( $this->assets_url ) . 'js/wpipl_scripts' . WPIPL_SCRIPT_SUFFIX . '.js',  array(), $this->_version, true );
+			// Localize the script with new data
+			$wpipl_opciones = array(	'wpipl_color' => esc_attr(get_option( 'wpipl_color_barra_progreso' )),	);
+			wp_localize_script( 'wpipl-script', 'wpipl_parametros', $wpipl_opciones );
+			wp_enqueue_script( 'wpipl-script');
 
 		}
 
@@ -153,15 +151,14 @@ class WP_IPL {
 
 	function load_plugin_textdomain() {
 		load_plugin_textdomain( WPIPL_TEXTDOMAIN, FALSE, basename( dirname (dirname( __FILE__ )) ) . '/languages/' );
-		
+
 	}
 
 	public function donate_link($links, $file) {
 
 		if ( dirname( $file ) == plugin_basename($this->dir) ) {
-		$links[] = '<a href="https://www.paypal.me/jcglp/1.5" target="_blank">' . __('Donate', WPIPL_TEXTDOMAIN) . '</a>';
+			$links[] = '<a href="https://www.paypal.me/jcglp/1.5" target="_blank">' . esc_html__('Donate', WPIPL_TEXTDOMAIN) . '</a>';
 		}
-
 		return $links;
 	}
 
@@ -207,6 +204,8 @@ class WP_IPL {
 	 * @return  void
 	 */
 	public function install () {
+		// Color por defecto para la barra
+		update_option( $this->_token . '_color_barra_progreso', '#FF0000' );
 		$this->_log_version_number();
 
 	} // End install ()
