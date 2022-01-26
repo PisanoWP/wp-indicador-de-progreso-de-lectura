@@ -3,8 +3,8 @@ Contributors: jcglp
 Tags: entrada, indicador, barra, progreso, lectura
 Donate link: https://www.paypal.me/jcglp/1.5
 Requires at least: 4.6
-Tested up to: 5.8
-Stable tag: 1.6.0 
+Tested up to: 5.9
+Stable tag: 1.6.1
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -54,7 +54,7 @@ de formación [EDteam](https://www.youtube.com/watch?v=ru4pw8qkP8o&t=243s)
 
 
 == Contacto ==
-Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré encantado de ayudarte jcglp@yahoo.es
+Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré encantado de ayudarte pisanowp@gmail.com
 
 
 
@@ -67,6 +67,9 @@ Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré en
 
 
 == Changelog ==
+
+= 1.6.1 =
+* Tested 5.9
 
 = 1.6.0 =
 * Usar funciones válidas para escapar valores de entrada
@@ -100,8 +103,5 @@ Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré en
 
 == Upgrade Notice ==
 
-= 1.6.0 =
-* Usar funciones válidas para escapar valores de entrada
-* Borrar opciones al desinstalar plugin
-* Limpieza código
-* Tested 5.8
+= 1.6.1 =
+* Tested 5.9

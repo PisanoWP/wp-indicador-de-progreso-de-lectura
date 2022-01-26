@@ -22,4 +22,4 @@ de formación EDteam, https://www.youtube.com/watch?v=ru4pw8qkP8o&t=243s
 
 FAQ
 ----------
-Si tienes dudas, preguntas o te da errores ponte en contacto conmigo: jcglp@yahoo.es
+Si tienes dudas, preguntas o te da errores ponte en contacto conmigo, estaré encantado de ayudarte pisanowp@gmail.com
